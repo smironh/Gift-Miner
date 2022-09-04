@@ -5,7 +5,7 @@
 #| |_) | (_| | (_| | (_| |
 #|_.__/ \__,_|\__,_|\__,_|
 
-URLWEBHOOK = "https://discord.com/api/webhooks/996350145442619454/LwL76xXOGnz33z_fpyuEXKIC9SZQNHxx0gxAs8h3mYXW0exrre-XeU9-Nk0a63rkCktg"
+URLWEBHOOK = "Сюда ссылка"
 
 import random
 import string
