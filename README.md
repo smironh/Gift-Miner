@@ -8,9 +8,11 @@
 # Вам потребуется данные библиотеки
     > pip install requests
     > pip install discord_webhook
+    > pip install eel
     или
     > pip3 install requests
     > pip3 install discord_webhook
+    > pip3 install eel
 ----
 
 # Если у вас Винда то можно просто открыть exe файл 
