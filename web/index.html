@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Gift Miner builder</title>
+        <link rel="stylesheet" href="style/style.css">
+        <link rel="icon" href="style/icon.png">
+        <script type="text/javascript" src="/eel.js"></script>
+    </head>
+    <body>
+        <div class="center">
+            GiftMiner by <a href = "https://smironh.gq" target="_blank" style="color: black;">SMIRONH</a>
+            <p><input id="URL" placeholder="Discord WebHook URL"></p>
+            <p><input type = button id = butt value="Ввести"></p>
+            <div id="str"></div>
+            <script>
+                let btn = document.querySelector("#butt");
+                btn.addEventListener("click", sendData);
+
+                async function sendData(){
+                    let url = document.querySelector("#URL").value;
+
+                    await eel.recv_data(url);
+                }
+            </script>
+        </div>
+    </body>
+</html>
